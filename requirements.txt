@@ -1,0 +1,4 @@
+google-cloud-ndb
+gunicorn
+jinja2
+webapp2>=3.0.0b1
