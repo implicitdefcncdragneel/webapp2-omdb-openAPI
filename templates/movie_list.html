@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Movie List
+{% endblock %}
+
+{% block content %}
+
+<h1>List of Movies</h1>
+{% if movies %}
+    <ul>
+        {% for movie in movies %}
+            <li>
+                <h2>{{ movie.title }}</h2>
+                {% if movie.poster %}
+                    <img src="{{ movie.poster }}" alt="{{ movie.title }} poster">
+                {% endif %}
+                <p>Genre: {{ movie.genre }}</p>
+                <p>Cast: {{ movie.cast }}</p>
+                <p>Director: {{ movie.director }}</p>
+                <form action="/edit" method="get">
+                    <input type="hidden" name="id" value="{{ movie.key.id() }}">
+                    <input type="submit" value="Edit">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No movies found.</p>
+{% endif %}
+{% endblock %}

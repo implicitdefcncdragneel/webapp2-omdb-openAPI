@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Search Movie
+{% endblock %}
+
+{% block content %}
+<h1>Search Movie</h1>
+    <form action="/search" method="post">
+        <label>Search By:</label>
+        <select name="search_option">
+        <option value="director">Director</option>
+        <option value="cast">Cast Member</option>
+        <option value="genre">Genre</option>
+        </select>
+        <br>
+        <input type="text" name="search">
+        <br>
+        <input type="submit" value="Search">
+    </form>
+{% endblock %}
