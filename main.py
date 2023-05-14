@@ -62,11 +62,15 @@ class AddMovieHandler(webapp2.RequestHandler):
         title = self.request.get("title")
         response = requests.get(f"http://www.omdbapi.com/?apikey=<API_KEY>&t={title}") # OMDB OpenAPI for fetching data for a movie , use your own API KEY
         data = json.loads(response.text)
-        with client.context(): # using the NDB client context to create a new movie object in the database
-            movie = Movie(title=data["Title"],director=data["Director"],cast=data["Actors"],genre=data["Genre"],poster=data["Poster"])
-            movie.put()
-
-        self.redirect("/list")
+        
+        if data["Response"] == "False":
+            template = jinja_env.get_template('404.html')
+            self.response.write(template.render())
+        else:
+            with client.context(): # using the NDB client context to create a new movie object in the database
+                movie = Movie(title=data["Title"],director=data["Director"],cast=data["Actors"],genre=data["Genre"],poster=data["Poster"])
+                movie.put()
+            self.redirect("/list")
 
 class EditMovieHandler(webapp2.RequestHandler):
     

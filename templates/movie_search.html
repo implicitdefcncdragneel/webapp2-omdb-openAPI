@@ -5,20 +5,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <form action="/search" method="post">
-        <div class="mb-3">
-            <label for="search_option" class="form-label">Search By:</label>
-            <select class="form-select" name="search_option">
-                <option value="director">Director</option>
-                <option value="cast">Cast Member</option>
-                <option value="genre">Genre</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" name="search" id="search">
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+<div class="container p-5">
+    <div class="container card p-3" style="background-color: azure;">
+        <form action="/search" method="post">
+            <div class="mb-3">
+                <label for="search_option" class="form-label">Search By:</label>
+                <select class="form-select" name="search_option">
+                    <option value="director">Director</option>
+                    <option value="cast">Cast Member</option>
+                    <option value="genre">Genre</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" name="search" id="search">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

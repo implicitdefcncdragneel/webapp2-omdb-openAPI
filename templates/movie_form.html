@@ -5,13 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <form method="post">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title:</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Movie</button>
-        </form>
+    <div class="container p-5">
+        <div class="container card p-3" style="background-color: azure;">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title:</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Movie</button>
+            </form>
+        </div>
     </div>
 {% endblock %}
