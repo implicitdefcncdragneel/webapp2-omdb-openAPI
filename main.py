@@ -6,8 +6,8 @@ import requests
 from google.cloud import ndb
 from models.movie import Movie
 
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir))
+template_dir = os.path.join(os.path.dirname(__file__), 'templates') # setting the path for the templates
+jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir)) # Jinja2 environment
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -23,17 +23,17 @@ class SearchMoviesHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
     def post(self):
-        client = ndb.Client()
+        client = ndb.Client() 
 
         search_option = self.request.get('search_option')
         query = self.request.get('search')
-        with client.context():
+        with client.context(): # using the NDB client context to query the database based on the search option
             if search_option == 'director':
-                movies = Movie.query(Movie.director == query)
+                movies = Movie.query(Movie.director.IN([query]))
             elif search_option == 'cast':
-                movies = Movie.query(Movie.cast == query)
+                movies = Movie.query(Movie.cast.IN([query]))
             elif search_option == 'genre':
-                movies = Movie.query(Movie.genre == query)
+                movies = Movie.query(Movie.genre.IN([query]))
             else:
                 movies = []
             template = jinja_env.get_template('movie_list.html')
@@ -43,7 +43,8 @@ class ListMoviesHandler(webapp2.RequestHandler):
     
     def get(self):
         client = ndb.Client()
-        with client.context():
+
+        with client.context(): # using the NDB client context to query all movies present in the database
             movies = Movie.query()
             template = jinja_env.get_template('movie_list.html')
             self.response.write(template.render(movies=movies))
@@ -59,9 +60,9 @@ class AddMovieHandler(webapp2.RequestHandler):
 
         client = ndb.Client()
         title = self.request.get("title")
-        response = requests.get(f"http://www.omdbapi.com/?apikey=<API_KEY>&t={title}")
+        response = requests.get(f"http://www.omdbapi.com/?apikey=<API_KEY>&t={title}") # OMDB OpenAPI for fetching data for a movie , use your own API KEY
         data = json.loads(response.text)
-        with client.context():
+        with client.context(): # using the NDB client context to create a new movie object in the database
             movie = Movie(title=data["Title"],director=data["Director"],cast=data["Actors"],genre=data["Genre"],poster=data["Poster"])
             movie.put()
 
@@ -80,7 +81,7 @@ class EditMovieHandler(webapp2.RequestHandler):
     def post(self):
         id = self.request.get('id')
         client = ndb.Client()
-        with client.context():
+        with client.context(): # using the NDB client context to edit movie object in the database
             movie = ndb.Key('Movie', int(id)).get()
             title = self.request.get('title') or movie.title
             director = self.request.get('director') or movie.director

@@ -5,17 +5,20 @@
 {% endblock %}
 
 {% block content %}
-<h1>Search Movie</h1>
+<div class="container">
     <form action="/search" method="post">
-        <label>Search By:</label>
-        <select name="search_option">
-        <option value="director">Director</option>
-        <option value="cast">Cast Member</option>
-        <option value="genre">Genre</option>
-        </select>
-        <br>
-        <input type="text" name="search">
-        <br>
-        <input type="submit" value="Search">
+        <div class="mb-3">
+            <label for="search_option" class="form-label">Search By:</label>
+            <select class="form-select" name="search_option">
+                <option value="director">Director</option>
+                <option value="cast">Cast Member</option>
+                <option value="genre">Genre</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="search" id="search">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
+</div>
 {% endblock %}
