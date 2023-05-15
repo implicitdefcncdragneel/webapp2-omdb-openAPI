@@ -60,6 +60,26 @@
                     <p>The OMDb API is a RESTful web service to obtain movie information.</p>
                 </div>
             </div>
+            {% if movies %}
+            <div class="container mt-3">
+                <div class="row">
+                    {% for movie in movies %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <img src="{{ movie.poster }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.title }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="container mt-3">
+                <p>No movies found.</p>
+            </div>
+            {% endif %}
         </div>
         {% endblock %}
     </div>

@@ -13,8 +13,13 @@ jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir)) # J
 class MainHandler(webapp2.RequestHandler):
 
     def get(self):
-        template = jinja_env.get_template('base.html')
-        self.response.write(template.render())
+
+        client = ndb.Client()
+        with client.context(): # using the NDB client context to query all movies present in the database
+            data = Movie.query().fetch()
+            movies = data[0:3]
+            template = jinja_env.get_template('base.html')
+            self.response.write(template.render(movies=movies))
 
 class SearchMoviesHandler(webapp2.RequestHandler):
     
@@ -28,16 +33,13 @@ class SearchMoviesHandler(webapp2.RequestHandler):
         search_option = self.request.get('search_option')
         query = self.request.get('search')
         with client.context(): # using the NDB client context to query the database based on the search option
-            if search_option == 'director':
-                movies = Movie.query(Movie.director.IN([query]))
-            elif search_option == 'cast':
-                movies = Movie.query(Movie.cast.IN([query]))
-            elif search_option == 'genre':
-                movies = Movie.query(Movie.genre.IN([query]))
+            movies = Movie.query(getattr(Movie, search_option).IN([query])) if search_option in ['director', 'cast', 'genre'] else None
+            if movies != None :
+                template = jinja_env.get_template('movie_list.html')
+                self.response.write(template.render(movies=movies))
             else:
-                movies = []
-            template = jinja_env.get_template('movie_list.html')
-            self.response.write(template.render(movies=movies))
+                template = jinja_env.get_template('404.html')
+                self.response.write(template.render())
 
 class ListMoviesHandler(webapp2.RequestHandler):
     
