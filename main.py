@@ -110,4 +110,4 @@ app = webapp2.WSGIApplication([
     ('/list', ListMoviesHandler),
     ('/add', AddMovieHandler),
     ('/edit', EditMovieHandler),
-], debug=True)
+], debug=False)
