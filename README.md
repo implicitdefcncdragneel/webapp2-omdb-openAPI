@@ -44,6 +44,5 @@ For any questions or inquiries, please contact [chandranandan.chandrakar@gmail.c
 
 **Note:** 
 1. To deploy the application, please refer to the instructions provided in the link  (https://cloud.google.com/eclipse/docs/creating-new-webapp).
-Note :
 2. https://stackoverflow.com/questions/15639475/webapp2-with-python3 .
 3. Use Your Own API Key For OMDB that will be inserted in "AddMovieHandler" .
